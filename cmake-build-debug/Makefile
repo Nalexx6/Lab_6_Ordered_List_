@@ -176,6 +176,33 @@ Mode.cpp.s:
 	$(MAKE) -f CMakeFiles\Lab_6_Ordered_List_.dir\build.make CMakeFiles/Lab_6_Ordered_List_.dir/Mode.cpp.s
 .PHONY : Mode.cpp.s
 
+Ord_list_structures/Point.obj: Ord_list_structures/Point.cpp.obj
+
+.PHONY : Ord_list_structures/Point.obj
+
+# target to build an object file
+Ord_list_structures/Point.cpp.obj:
+	$(MAKE) -f CMakeFiles\Lab_6_Ordered_List_.dir\build.make CMakeFiles/Lab_6_Ordered_List_.dir/Ord_list_structures/Point.cpp.obj
+.PHONY : Ord_list_structures/Point.cpp.obj
+
+Ord_list_structures/Point.i: Ord_list_structures/Point.cpp.i
+
+.PHONY : Ord_list_structures/Point.i
+
+# target to preprocess a source file
+Ord_list_structures/Point.cpp.i:
+	$(MAKE) -f CMakeFiles\Lab_6_Ordered_List_.dir\build.make CMakeFiles/Lab_6_Ordered_List_.dir/Ord_list_structures/Point.cpp.i
+.PHONY : Ord_list_structures/Point.cpp.i
+
+Ord_list_structures/Point.s: Ord_list_structures/Point.cpp.s
+
+.PHONY : Ord_list_structures/Point.s
+
+# target to generate assembly for a file
+Ord_list_structures/Point.cpp.s:
+	$(MAKE) -f CMakeFiles\Lab_6_Ordered_List_.dir\build.make CMakeFiles/Lab_6_Ordered_List_.dir/Ord_list_structures/Point.cpp.s
+.PHONY : Ord_list_structures/Point.cpp.s
+
 Random.obj: Random.cpp.obj
 
 .PHONY : Random.obj
@@ -245,6 +272,9 @@ help:
 	@echo ... Mode.obj
 	@echo ... Mode.i
 	@echo ... Mode.s
+	@echo ... Ord_list_structures/Point.obj
+	@echo ... Ord_list_structures/Point.i
+	@echo ... Ord_list_structures/Point.s
 	@echo ... Random.obj
 	@echo ... Random.i
 	@echo ... Random.s

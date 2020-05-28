@@ -6,6 +6,7 @@
 #define LAB_6_ORDERED_LIST__ORD_LIST_H
 
 #include "Point.h"
+//#include "Point.cpp"
 
 template <typename T>
 class Ord_list {
@@ -80,7 +81,7 @@ public:
 //        if(printing)
 //            std::cout<<"Element was successfully pushed\n";
     }
-    void erase(int index){
+    void erase(int& index){
         if(index >= length){
             return;
         }
@@ -117,7 +118,7 @@ public:
         count->next->prev = count->prev;
         length--;
     }
-    std::vector <T> search_by_value(T& value){
+    std::vector <T> search(T& value){
         std::vector <T> res;
         ListNode* count = head;
         for(int i = 0; i < length; i++){
@@ -125,21 +126,21 @@ public:
                 break;
             }
             if(count->value == value){
-                res->push(count->value);
+                res.emplace_back(count->value);
                 count = count->next;
             }
         }
         return res;
     }
-    std::vector <T> search_by_value(T& lo, T& hi){
+    std::vector <T> search(T& lo, T& hi){
         std:: vector <T> res;
         ListNode* count = head;
         for(int i = 0; i < length; i++){
             if(count->value > hi){
                 break;
             }
-            if(count->value >= lo && count->value <= hi){
-                res->push(count->value);
+            if(count->value >= lo){
+                res.emplace_back(count->value);
                 count = count->next;
             }
         }
@@ -151,7 +152,8 @@ public:
         }
         ListNode* count = head;
         for(int i = 0; i < length; i++){
-            std::cout<<i<<"\t"<<count->value<<"\n";
+            std::cout<<i<<":\t"<<count->value<<"\n";
+            count = count->next;
         }
     }
     void go_round(void (*fn)(T& value)){

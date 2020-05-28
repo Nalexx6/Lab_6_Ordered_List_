@@ -16,6 +16,7 @@ int Random::rand(int lo, int hi) {
 
 double Random::double_rand(int lo, int hi) {
 
-
+    double d = (double)rand(0, INT32_MAX) / INT32_MAX;
+    return lo + d * (hi - lo);
 
 }

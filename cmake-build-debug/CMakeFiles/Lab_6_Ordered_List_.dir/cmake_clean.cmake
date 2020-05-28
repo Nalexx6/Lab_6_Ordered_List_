@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Lab_6_Ordered_List_.dir/Functions.cpp.obj"
   "CMakeFiles/Lab_6_Ordered_List_.dir/Mode.cpp.obj"
+  "CMakeFiles/Lab_6_Ordered_List_.dir/Ord_list_structures/Point.cpp.obj"
   "CMakeFiles/Lab_6_Ordered_List_.dir/Random.cpp.obj"
   "CMakeFiles/Lab_6_Ordered_List_.dir/main.cpp.obj"
   "Lab_6_Ordered_List_.exe"

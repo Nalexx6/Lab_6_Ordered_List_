@@ -8,6 +8,7 @@
 #include "Functions.h"
 
 class Mode {
+public:
 
     static void interactive();
     static void demo();

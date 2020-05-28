@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include "Mode.h"
 int main() {
 
     char response = 'y';

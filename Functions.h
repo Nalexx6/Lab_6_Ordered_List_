@@ -9,6 +9,7 @@
 #include "Ord_list structures/Ord_array.h"
 #include "Ord_list structures/Ord_bst.h"
 #include "Ord_list structures/Ord_avl.h"
+#include "Ord_list structures/Ord_23.h"
 #include "Random.h"
 
 class Functions {
@@ -29,6 +30,10 @@ public:
     //AVL tree list
     static void avl_push_N_random(int& N, Ord_avl <Point>& ordAvl);
     static void ord_avl_interactive();
+
+    //2-3 tree list
+    static void two_three_push_N_random(int& N , Ord_23 <Point>& ord23);
+    static void ord_23_interactive();
 
 };
 

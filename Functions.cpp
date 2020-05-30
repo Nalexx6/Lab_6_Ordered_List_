@@ -53,6 +53,18 @@ void Functions::avl_push_N_random(int &N, Ord_avl<Point> &ordAvl){
 
 }
 
+void Functions::two_three_push_N_random(int &N, Ord_23<Point> &ord23) {
+
+    Point* point;
+    for(int i = 0; i < N; i++){
+        point = new Point(Random::double_rand(N, 2*N), Random::double_rand(N, 2*N),
+                          Random::double_rand(N, 2*N));
+        std::cout<<*point<<"\n";
+        ord23.push(*point);
+    }
+
+}
+
 void Functions::ord_list_interactive() {
     Ord_list <Point> ordList;
     char response = 'y';
@@ -286,13 +298,13 @@ void Functions::ord_avl_interactive() {
             auto* point = new Point(x_cor_1, y_cor_1, z_cor_1);
             ordAvl.push(*point);
         }
-//        if(key == 2){
-//            int index = 0;
-//            ordAvl.output(index, ordAvl.root);
-//            std::cout<<"Please enter the index of element, which you want to delete\n";
-//            std::cin>>index;
-//            ordAvl.erase(index);
-//        }
+        if(key == 2){
+            int index = 0;
+            ordAvl.output(index, ordAvl.root);
+            std::cout<<"Please enter the index of element, which you want to delete\n";
+            std::cin>>index;
+            ordAvl.erase(index);
+        }
         if(key == 3){
             int index = 0;
             ordAvl.output(index, ordAvl.root);
@@ -316,6 +328,76 @@ void Functions::ord_avl_interactive() {
             std::cin >> x_cor_1 >> y_cor_1 >> z_cor_1;
             auto *point2 = new Point(x_cor_1, y_cor_1, z_cor_1);
             std::vector<Point> res = ordAvl.search(*point1, *point2);
+            for (int i = 0; i < res.size(); i++) {
+                std::cout << i << ":\t" << res[i] << "\n";
+            }
+        }
+
+        std::cout<<"If you want to do anything else with this list press 'y', press 'n', if you don`t\n";
+        std::cin>>response;
+
+    }
+
+}
+
+void Functions::ord_23_interactive() {
+
+    Ord_23 <Point> ord23;
+    char response = 'y';
+    while(response == 'y') {
+
+        std::cout<<"Please, choose what you want to do with your Ordlist\n"
+                   "0 - Push N random elements to list\n"
+                   "1 - Push new element\n"
+                   "2 - Delete element by index\n"
+                   "3 - Print all data from list\n"
+                   "4 - Search by exact value\n"
+                   "5 - Search by exact range of values\n";
+        int key;
+        std::cin>>key;
+        if(key == 0){
+            std::cout<<"Please enter the amount of random elements, which you want to push\n";
+            int N;
+            std::cin>>N;
+            two_three_push_N_random(N, ord23);
+        }
+        if(key == 1){
+            std::cout<<"Please enter coordinates of new point(3 double numbers):\n";
+            double x_cor_1, y_cor_1, z_cor_1;
+            std::cin>>x_cor_1>>y_cor_1>>z_cor_1;
+            auto* point = new Point(x_cor_1, y_cor_1, z_cor_1);
+            ord23.push(*point);
+        }
+        if(key == 2){
+            int index = 0;
+            ord23.output(index, ord23.root);
+            std::cout<<"Please enter the index of element, which you want to delete\n";
+            std::cin>>index;
+            ord23.erase(index);
+        }
+        if(key == 3){
+            int index = 0;
+            ord23.output(index, ord23.root);
+        }
+        if(key == 4) {
+            std::cout << "Please enter values of point, which you want to search(3 double numbers):\n";
+            double x_cor_1, y_cor_1, z_cor_1;
+            std::cin >> x_cor_1 >> y_cor_1 >> z_cor_1;
+            auto *point = new Point(x_cor_1, y_cor_1, z_cor_1);
+            std::vector<Point> res = ord23.search(*point);
+            for (int i = 0; i < res.size(); i++) {
+                std::cout << i << ":\t" << res[i] << "\n";
+            }
+        }
+        if(key == 5){
+            std::cout << "Please enter values of point, which you want is low limit of your range(3 double numbers):\n";
+            double x_cor_1, y_cor_1, z_cor_1;
+            std::cin >> x_cor_1 >> y_cor_1 >> z_cor_1;
+            auto *point1 = new Point(x_cor_1, y_cor_1, z_cor_1);
+            std::cout << "Please enter values of point, which you want is high limit of your range(3 double numbers):\n";
+            std::cin >> x_cor_1 >> y_cor_1 >> z_cor_1;
+            auto *point2 = new Point(x_cor_1, y_cor_1, z_cor_1);
+            std::vector<Point> res = ord23.search(*point1, *point2);
             for (int i = 0; i < res.size(); i++) {
                 std::cout << i << ":\t" << res[i] << "\n";
             }

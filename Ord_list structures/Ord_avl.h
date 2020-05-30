@@ -35,45 +35,45 @@ private:
 public:
     Node* root;
 
+    Ord_avl(){
+        root = nullptr;
+    }
+    ~Ord_avl() = default;
+
     int get_height(Node* node){
         if(node == nullptr)
             return 0;
         return node->height;
     }
     Node* left_rotation(Node* node){
-        Node *y = node->right;
-        Node *l_sub = y->left;
 
-        // Perform rotation
-        y->left = node;
+        Node *x = node->right;
+        Node *l_sub = x->left;
+
+         x->left = node;
         node->right = l_sub;
 
-        // Update heights
-        node->height = 1 + std::max(height(node->left),
-                        height(node->right));
-        y->height = 1 + std::max(height(y->left),
-                        height(y->right));
+        node->height = 1 + std::max(get_height(node->left),
+                        get_height(node->right));
+        x->height = 1 + std::max(get_height(x->left),
+                        get_height(x->right));
 
-        // Return new root
-        return y;
+        return x;
     }
     Node* right_rotation(Node* node){
 
-        Node *y = node->left;
-        Node *r_sub = y->right;
+        Node *x = node->left;
+        Node *r_sub = x->right;
 
-        // Perform rotation
-        y->right = node;
+        x->right = node;
         node->left = r_sub;
 
-        // Update heights
         node->height = 1 + std::max(get_height(node->left),
                         get_height(node->right));
-        y->height = 1 + std::max(get_height(y->left),
-                        get_height(y->right));
+        x->height = 1 + std::max(get_height(x->left),
+                        get_height(x->right));
 
-        // Return new root
-        return y;
+        return x;
     }
 
     void push(T& t){
@@ -82,6 +82,7 @@ public:
     Node* push(Node* node, T& t){
         if(node == nullptr)
             return new Node(t);
+//        std::cout<<node->value<<std::endl;
         if(t < node->value){
             node->left = push(node->left, t);
             node->left->father = node;
@@ -93,7 +94,6 @@ public:
         if(t == node->value){
             node->count++;
         }
-
         node->height = 1 + std::max(get_height(node->left), get_height(node->right));
         int balance = get_height(node->left) - get_height(node->right);
 
@@ -105,13 +105,118 @@ public:
         }
         if(balance > 1 && t > node->left->value){
             node->left = left_rotation(node->left);
+            node->left->father = node;
             return right_rotation(node);
         }
         if(balance < -1 && t < node->right->value){
             node->right = right_rotation(node->right);
+            node->right->father = node;
             return left_rotation(node);
         }
         return node;
+    }
+
+    void delete_node(Node* node){
+        if(node->right == nullptr && node->left == nullptr){
+            if(node->father->right->value == node->value){
+                node->father->right = nullptr;
+                delete node;
+            } else{
+                node->father->left = nullptr;
+                delete node;
+            }
+            return;
+        }
+        if(node->right == nullptr && node->left != nullptr){
+            if(node->father->right->value == node->value){
+                node->father->right = node->left;
+                node->left->father = node->father;
+                delete node;
+            } else{
+                node->father->left = node->left;
+                node->left->father = node->father;
+                delete node;
+            }
+            return;
+        }
+        if(node->right != nullptr && node->left == nullptr){
+            if(node->father->right->value == node->value){
+                node->father->right = node->right;
+                node->right->father = node->father;
+                delete node;
+            } else{
+                node->father->left = node->right;
+                node->right->father = node->father;
+                delete node;
+            }
+            return;
+        }
+        if(node->right != nullptr && node->left != nullptr){
+            Node* temp = node;
+            temp = temp->left;
+            while(true){
+                if(temp->right != nullptr) {
+                    temp = temp->right;
+                } else
+                    break;
+            }
+            node->value = temp->value;
+            node->count = temp->count;
+            delete_node(temp);
+            return;
+        }
+    }
+    void erase(int& index) {
+        int count = 0;
+        erase(root, index, count);
+        balancing(root);
+    }
+    void erase(Node* node, int& index, int& count){
+        if(node == nullptr){
+            return;
+        }
+        erase(node->left, index, count);
+        if(count > index){
+            return;
+        }
+        for(int i = 0; i < node->count; i++){
+            if(count == index){
+                if(node->count > 1){
+                    node->count--;
+                } else{
+
+                    delete_node(node);
+                }
+                count++;
+                return;
+            }
+            count++;
+        }
+        erase(node->right, index, count);
+
+    }
+    void balancing(Node* node){
+        if(node == nullptr)
+            return;
+        balancing(node->left);
+        balancing(node->right);
+        node->height = 1 + std::max(get_height(node->left), get_height(node->right));
+        int balance = get_height(node->left) - get_height(node->right);
+
+        if(balance > 1){
+            right_rotation(node);
+        }
+        if(balance < -1){
+            left_rotation(node);
+        }
+        if(balance > 1){
+            node->left = left_rotation(node->left);
+            node->left->father = node;
+        }
+        if(balance < -1){
+            node->right = right_rotation(node->right);
+            node->right->father = node;
+        }
     }
 
     std::vector <T> search(T& value){
@@ -160,12 +265,14 @@ public:
             return;
         output(index, node->left);
         for(int i = 0; i < node->count; i++) {
-            std::cout<<index<<":\t"<<node->value<<"\t"<<node->father->value<<"\n";
+            std::cout<<index<<":\t"<<node->value<<"\t";
+            if(node != this->root)
+                std::cout<<"||\t"<<node->father->value;
+            std::cout<<"\n";
             index++;
         }
         output(index, node->right);
     }
-//    void balancing();
 
 
 };

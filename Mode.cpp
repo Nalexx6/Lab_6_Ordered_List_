@@ -23,6 +23,10 @@ void Mode::interactive() {
             Functions::ord_array_interactive();
         if(key == 3)
             Functions::ord_bst_interactive();
+        if(key == 4)
+            Functions::ord_avl_interactive();
+        if(key == 5)
+            Functions::ord_23_interactive();
 
         std::cout<<"If you want to execute interactive for another type of structure press 'y', press 'n', if you don`t\n";
         std::cin>>response;

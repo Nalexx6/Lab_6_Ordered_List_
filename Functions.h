@@ -35,6 +35,13 @@ public:
     static void two_three_push_N_random(int& N , Ord_23 <Point>& ord23);
     static void ord_23_interactive();
 
+    //Demo
+    static void ord_list_demo();
+    static void ord_array_demo();
+    static void ord_bst_demo();
+    static void ord_avl_demo();
+    static void ord_23_demo();
+
 };
 
 

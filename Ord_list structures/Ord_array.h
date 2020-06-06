@@ -133,9 +133,9 @@ public:
             std::cout<<i<<":\t"<<array[i]<<"\n";
         }
     }
-    void go_round(void (*fn)(T& value)){
+    void go_round(){
         for(int i = 0; i < size; i++){
-            fn(array[i]);
+            array[i] = array[i];
         }
     }
 

@@ -173,6 +173,10 @@ public:
         }
         search_node(node->right, res, lo, hi);
     }
+    void output(){
+        int index = 0;
+        output(index, root);
+    }
     void output(int& index, Node* node){
         if(node == nullptr)
             return;
@@ -183,8 +187,16 @@ public:
         }
         output(index, node->right);
     }
-//    void go_round();
-//    void destroy(Node* node);
+    void go_round(){
+        go_round(root);
+    }
+    void go_round(Node* node){
+        if(node == nullptr)
+            return;
+        go_round(node->left);
+        go_round(node->right);
+    }
+
 
 
 

@@ -4,62 +4,67 @@
 
 #include "Functions.h"
 
-void Functions::list_push_N_random(int &N, Ord_list<Point> &ordList) {
+void Functions::list_push_N_random(int &N, Ord_list<Point> &ordList, bool benchmark) {
 
     Point* point;
     for(int i = 0; i < N; i++){
         point = new Point(Random::double_rand(N, 2*N), Random::double_rand(N, 2*N),
                                  Random::double_rand(N, 2*N));
-        std::cout<<*point<<"\n";
+        if(!benchmark)
+            std::cout<<*point<<"\n";
         ordList.push(*point);
     }
 
 }
 
-void Functions::array_push_N_random(int &N, Ord_array<Point> &ordArray) {
+void Functions::array_push_N_random(int &N, Ord_array<Point> &ordArray, bool benchmark) {
 
     Point* point;
     for(int i = 0; i < N; i++){
         point = new Point(Random::double_rand(N, 2*N), Random::double_rand(N, 2*N),
                           Random::double_rand(N, 2*N));
-        std::cout<<*point<<"\n";
+        if(!benchmark)
+            std::cout<<*point<<"\n";
         ordArray.push(*point);
     }
 
 }
 
-void Functions::bst_push_N_random(int &N, Ord_bst<Point> &ordBst) {
+void Functions::bst_push_N_random(int &N, Ord_bst<Point> &ordBst, bool benchmark) {
 
     Point* point;
     for(int i = 0; i < N; i++){
         point = new Point(Random::double_rand(N, 2*N), Random::double_rand(N, 2*N),
                           Random::double_rand(N, 2*N));
-        std::cout<<*point<<"\n";
+        if(!benchmark)
+            std::cout<<*point<<"\n";
         ordBst.push(*point);
     }
 
 }
 
-void Functions::avl_push_N_random(int &N, Ord_avl<Point> &ordAvl){
+void Functions::avl_push_N_random(int &N, Ord_avl<Point> &ordAvl, bool benchmark){
 
 
     Point* point;
     for(int i = 0; i < N; i++){
         point = new Point(Random::double_rand(N, 2*N), Random::double_rand(N, 2*N),
                           Random::double_rand(N, 2*N));
-        std::cout<<*point<<"\n";
+        if(!benchmark)
+            std::cout<<*point<<"\n";
         ordAvl.push(*point);
     }
 
 }
 
-void Functions::two_three_push_N_random(int &N, Ord_23<Point> &ord23) {
+void Functions::two_three_push_N_random(int &N, Ord_23<Point> &ord23, bool benchmark) {
 
     Point* point;
     for(int i = 0; i < N; i++){
         point = new Point(Random::double_rand(N, 2*N), Random::double_rand(N, 2*N),
                           Random::double_rand(N, 2*N));
-        std::cout<<*point<<"\n";
+        if(!benchmark)
+            std::cout<<*point<<"\n";
         ord23.push(*point);
     }
 
@@ -83,7 +88,7 @@ void Functions::ord_list_interactive() {
             std::cout<<"Please enter the amount of random elements, which you want to push\n";
             int N;
             std::cin>>N;
-            list_push_N_random(N, ordList);
+            list_push_N_random(N, ordList, false);
         }
         if(key == 1){
             std::cout<<"Please enter coordinates of new point(3 double numbers):\n";
@@ -151,7 +156,7 @@ void Functions::ord_array_interactive() {
             std::cout << "Please enter the amount of random elements, which you want to push\n";
             int N;
             std::cin >> N;
-            array_push_N_random(N, ordArray);
+            array_push_N_random(N, ordArray, false);
         }
         if (key == 1) {
             std::cout << "Please enter coordinates of new point(3 double numbers):\n";
@@ -219,7 +224,7 @@ void Functions::ord_bst_interactive() {
             std::cout<<"Please enter the amount of random elements, which you want to push\n";
             int N;
             std::cin>>N;
-            bst_push_N_random(N, ordBst);
+            bst_push_N_random(N, ordBst, false);
         }
         if(key == 1){
             std::cout<<"Please enter coordinates of new point(3 double numbers):\n";
@@ -236,8 +241,7 @@ void Functions::ord_bst_interactive() {
             ordBst.erase(index);
         }
         if(key == 3){
-            int index = 0;
-            ordBst.output(index, ordBst.root);
+            ordBst.output();
         }
         if(key == 4) {
             std::cout << "Please enter values of point, which you want to search(3 double numbers):\n";
@@ -289,7 +293,7 @@ void Functions::ord_avl_interactive() {
             std::cout<<"Please enter the amount of random elements, which you want to push\n";
             int N;
             std::cin>>N;
-            avl_push_N_random(N, ordAvl);
+            avl_push_N_random(N, ordAvl, false);
         }
         if(key == 1){
             std::cout<<"Please enter coordinates of new point(3 double numbers):\n";
@@ -306,8 +310,7 @@ void Functions::ord_avl_interactive() {
             ordAvl.erase(index);
         }
         if(key == 3){
-            int index = 0;
-            ordAvl.output(index, ordAvl.root);
+            ordAvl.output();
         }
         if(key == 4) {
             std::cout << "Please enter values of point, which you want to search(3 double numbers):\n";
@@ -359,7 +362,7 @@ void Functions::ord_23_interactive() {
             std::cout<<"Please enter the amount of random elements, which you want to push\n";
             int N;
             std::cin>>N;
-            two_three_push_N_random(N, ord23);
+            two_three_push_N_random(N, ord23, false);
         }
         if(key == 1){
             std::cout<<"Please enter coordinates of new point(3 double numbers):\n";
@@ -376,8 +379,7 @@ void Functions::ord_23_interactive() {
             ord23.erase(index);
         }
         if(key == 3){
-            int index = 0;
-            ord23.output(index, ord23.root);
+            ord23.output();
         }
         if(key == 4) {
             std::cout << "Please enter values of point, which you want to search(3 double numbers):\n";
@@ -410,5 +412,207 @@ void Functions::ord_23_interactive() {
 
 }
 
+void Functions::ord_list_demo() {
+
+    Ord_list <Point> ordList;
+    int N = 10, index1 = 4, index2 = 6;
+    std::string breakpoint;
+    std::cout<<"Firstly, we will push "<< N <<" random points to our list\n"
+                "cin anything to continue\n";
+    std::cin>>breakpoint;
+    list_push_N_random(N, ordList, false);
+    std::cout<<"This is our points in order they were pushed\n";
+    std::cout<<"Now we will output the list to show, that order in list is correct\n"
+               "cin anything to continue\n";
+    std::cin>>breakpoint;
+    ordList.output();
+    std::cout<<"This is our list, now we will delete point with "<< index1 <<" index\n"
+                "cin anything to continue\n";
+    std::cin>>breakpoint;
+    ordList.erase(index1);
+    ordList.output();
+    std::cout<<"This is our list, now we will delete point with "<< index2 <<" index\n"
+                "cin anything to continue\n";
+    std::cin>>breakpoint;
+    ordList.erase(index2);
+    ordList.output();
+    std::cout<<"This is our list, now we will execute search with bottom limit: " << N*5/4 <<", 0, 0\n"
+                "and top limit: "<< N*7/4 <<", 0, 0\n"
+              "cin anything to continue\n";
+    std::cin>>breakpoint;
+    auto* lo = new Point(N*5/4, 0 ,0);
+    auto* hi = new Point(N*7/4, 0 ,0);
+    std::vector <Point> res = ordList.search(*lo, *hi);
+    for(int i = 0; i < res.size(); i++){
+        std::cout<<i<<":\t"<<res[i]<<"\n";
+    }
+    std::cout<<"This is result of the search\n"
+                "cin anything to continue\n";
+    std::cin>>breakpoint;
+    std::cout<<"This is the end of demo mode\n";
+}
+
+void Functions::ord_array_demo() {
+
+    Ord_array <Point> ordArray;
+    int N = 10, index1 = 4, index2 = 6;
+    std::string breakpoint;
+    std::cout<<"Firstly, we will push "<< N <<" random points to our list\n"
+                                              "cin anything to continue\n";
+    std::cin>>breakpoint;
+    array_push_N_random(N, ordArray, false);
+    std::cout<<"This is our points in order they were pushed\n";
+    std::cout<<"Now we will output the list to show, that order in list is correct\n"
+               "cin anything to continue\n";
+    std::cin>>breakpoint;
+    ordArray.output();
+    std::cout<<"This is our list, now we will delete point with "<< index1 <<" index\n"
+                 "cin anything to continue\n";
+    std::cin>>breakpoint;
+    ordArray.erase(index1);
+    ordArray.output();
+    std::cout<<"This is our list, now we will delete point with "<< index2 <<" index\n"
+                "cin anything to continue\n";
+    std::cin>>breakpoint;
+    ordArray.erase(index2);
+    ordArray.output();
+    std::cout<<"This is our list, now we will execute search with bottom limit: " << N*5/4 <<", 0, 0\n"
+                 "and top limit: "<< N*7/4 <<", 0, 0\n"
+                 "cin anything to continue\n";
+    std::cin>>breakpoint;
+    auto* lo = new Point(N*5/4, 0 ,0);
+    auto* hi = new Point(N*7/4, 0 ,0);
+    std::vector <Point> res = ordArray.search(*lo, *hi);
+    for(int i = 0; i < res.size(); i++){
+        std::cout<<i<<":\t"<<res[i]<<"\n";
+    }
+    std::cout<<"This is result of the search\n"
+               "cin anything to continue\n";
+    std::cin>>breakpoint;
+    std::cout<<"This is the end of demo mode\n";
+}
+
+void Functions::ord_bst_demo() {
+
+    Ord_bst <Point> ordBst;
+    int N = 10, index1 = 4, index2 = 6;
+    std::string breakpoint;
+    std::cout<<"Firstly, we will push "<< N <<" random points to our list\n"
+                                              "cin anything to continue\n";
+    std::cin>>breakpoint;
+    bst_push_N_random(N, ordBst, false);
+    std::cout<<"This is our points in order they were pushed\n";
+    std::cout<<"Now we will output the list to show, that order in list is correct\n"
+               "cin anything to continue\n";
+    std::cin>>breakpoint;
+    ordBst.output();
+    std::cout<<"This is our list, now we will delete point with "<< index1 <<" index\n"
+                 "cin anything to continue\n";
+    std::cin>>breakpoint;
+    ordBst.erase(index1);
+    ordBst.output();
+    std::cout<<"This is our list, now we will delete point with "<< index2 <<" index\n"
+                 "cin anything to continue\n";
+    std::cin>>breakpoint;
+    ordBst.erase(index2);
+    ordBst.output();
+    std::cout<<"This is our list, now we will execute search with bottom limit: " << N*5/4 <<", 0, 0\n"
+                 "and top limit: "<< N*7/4 <<", 0, 0\n"
+                 "cin anything to continue\n";
+    std::cin>>breakpoint;
+    auto* lo = new Point(N*5/4, 0 ,0);
+    auto* hi = new Point(N*7/4, 0 ,0);
+    std::vector <Point> res = ordBst.search(*lo, *hi);
+    for(int i = 0; i < res.size(); i++){
+        std::cout<<i<<":\t"<<res[i]<<"\n";
+    }
+    std::cout<<"This is result of the search\n"
+               "cin anything to continue\n";
+    std::cin>>breakpoint;
+    std::cout<<"This is the end of demo mode\n";
+
+}
+
+void Functions::ord_avl_demo() {
+
+    Ord_avl <Point> ordAvl;
+    int N = 10, index1 = 4, index2 = 6;
+    std::string breakpoint;
+    std::cout<<"Firstly, we will push "<< N <<" random points to our list\n"
+                "cin anything to continue\n";
+    std::cin>>breakpoint;
+    avl_push_N_random(N, ordAvl, false);
+    std::cout<<"This is our points in order they were pushed\n";
+    std::cout<<"Now we will output the list to show, that order in list is correct\n"
+               "cin anything to continue\n";
+    std::cin>>breakpoint;
+    ordAvl.output();
+    std::cout<<"This is our list, now we will delete point with "<< index1 <<" index\n"
+                "cin anything to continue\n";
+    std::cin>>breakpoint;
+    ordAvl.erase(index1);
+    ordAvl.output();
+    std::cout<<"This is our list, now we will delete point with "<< index2 <<" index\n"
+                 "cin anything to continue\n";
+    std::cin>>breakpoint;
+    ordAvl.erase(index2);
+    ordAvl.output();
+    std::cout<<"This is our list, now we will execute search with bottom limit: " << N*5/4 <<", 0, 0\n"
+                 "and top limit: "<< N*7/4 <<", 0, 0\n"
+                    "cin anything to continue\n";
+    std::cin>>breakpoint;
+    auto* lo = new Point(N*5/4, 0 ,0);
+    auto* hi = new Point(N*7/4, 0 ,0);
+    std::vector <Point> res = ordAvl.search(*lo, *hi);
+    for(int i = 0; i < res.size(); i++){
+        std::cout<<i<<":\t"<<res[i]<<"\n";
+    }
+    std::cout<<"This is result of the search\n"
+               "cin anything to continue\n";
+    std::cin>>breakpoint;
+    std::cout<<"This is the end of demo mode\n";
+
+}
+
+void Functions::ord_23_demo() {
+
+    Ord_23 <Point> ord23;
+    int N = 10, index1 = 4, index2 = 6;
+    std::string breakpoint;
+    std::cout<<"Firstly, we will push "<< N <<" random points to our list\n"
+                                              "cin anything to continue\n";
+    std::cin>>breakpoint;
+    two_three_push_N_random(N, ord23, false);
+    std::cout<<"This is our points in order they were pushed\n";
+    std::cout<<"Now we will output the list to show, that order in list is correct\n"
+               "cin anything to continue\n";
+    std::cin>>breakpoint;
+    ord23.output();
+    std::cout<<"This is our list, now we will delete point with "<< index1 <<" index\n"
+                 "cin anything to continue\n";
+    std::cin>>breakpoint;
+    ord23.erase(index1);
+    ord23.output();
+    std::cout<<"This is our list, now we will delete point with "<< index2 <<" index\n"
+                "cin anything to continue\n";
+    std::cin>>breakpoint;
+    ord23.erase(index2);
+    ord23.output();
+    std::cout<<"This is our list, now we will execute search with bottom limit: " << N*5/4 <<", 0, 0\n"
+                "and top limit: "<< N*7/4 <<", 0, 0\n"
+                "cin anything to continue\n";
+    std::cin>>breakpoint;
+    auto* lo = new Point(N*5/4, 0 ,0);
+    auto* hi = new Point(N*7/4, 0 ,0);
+    std::vector <Point> res = ord23.search(*lo, *hi);
+    for(int i = 0; i < res.size(); i++){
+        std::cout<<i<<":\t"<<res[i]<<"\n";
+    }
+    std::cout<<"This is result of the search\n"
+               "cin anything to continue\n";
+    std::cin>>breakpoint;
+    std::cout<<"This is the end of demo mode\n";
+
+}
 
 

@@ -74,12 +74,12 @@ public:
                     node->next = count;
                     node->prev->next = node;
                     count->prev = node;
+                    break;
                 }
             }
         }
         length++;
-//        if(printing)
-//            std::cout<<"Element was successfully pushed\n";
+
     }
     void erase(int& index){
         if(index >= length){
@@ -90,7 +90,6 @@ public:
             tail = nullptr;
             length--;
         }
-        ListNode* count;
         if(index == 0){
             head = head->next;
             head->prev = nullptr;
@@ -103,16 +102,10 @@ public:
             length--;
             return;
         }
-        if(index <= length / 2) {
-            count = head;
-            for (int i = 0; i < index; i++) {
-                count = count->next;
-            }
-        } else{
-            count = tail;
-            for (int i = length; i > index; i--) {
-                count = count->prev;
-            }
+        ListNode* count;
+        count = head;
+        for (int i = 0; i < index; i++) {
+            count = count->next;
         }
         count->prev->next = count->next;
         count->next->prev = count->prev;
@@ -127,8 +120,8 @@ public:
             }
             if(count->value == value){
                 res.emplace_back(count->value);
-                count = count->next;
             }
+            count = count->next;
         }
         return res;
     }
@@ -141,8 +134,8 @@ public:
             }
             if(count->value >= lo){
                 res.emplace_back(count->value);
-                count = count->next;
             }
+            count = count->next;
         }
         return res;
     }
@@ -156,10 +149,9 @@ public:
             count = count->next;
         }
     }
-    void go_round(void (*fn)(T& value)){
+    void go_round(){
         ListNode* count = head;
         for(int i = 0; i < length; i++){
-            fn(count->value);
             count = count->next;
         }
     }

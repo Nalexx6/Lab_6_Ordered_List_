@@ -20,12 +20,14 @@ private:
         Node* father;
         int key;
         bool three_node;
+//        bool hole;
 
         Node(T& value, int key){
             values[0] = value;
             left = middle = right = father = nullptr;
             three_node = false;
             this->key = key;
+//            hole = false;
         }
 
     };
@@ -450,7 +452,7 @@ public:
         int count = 0;
         erase(root, index, count);
     }
-    void delete_node(Node* node, int& key){
+    void delete_node(Node* node, int key){
         if(node->left == nullptr && node->three_node){
             if(key == 0){
                 node->values[0] = node->values[1];
@@ -465,28 +467,218 @@ public:
                 root = nullptr;
                 return;
             }
-            if(node->key == 0 && node->father->middle->three_node){
-                node->values[0] = node->father->values[0];
-                node->father->values[0] = node->father->middle->values[0];
-                node->father->middle->values[0] = node->father->middle->values[1];
-                node->father->middle->three_node = false;
-                return;
+            if(node->key == 0){
+                if (node->father->middle->three_node){
+                    node->values[0] = node->father->values[0];
+                    node->father->values[0] = node->father->middle->values[0];
+                    node->father->middle->values[0] = node->father->middle->values[1];
+                    node->father->middle->three_node = false;
+                    return;
+                }
+                if(node->father->right->three_node){
+                    node->values[0] = node->father->values[0];
+                    node->father->values[0] = node->father->middle->values[0];
+                    node->father->middle->values[0] = node->father->values[1];
+                    node->father->values[1] = node->father->right->values[0];
+                    node->father->right->values[0] = node->father->right->values[1];
+                    node->father->right->three_node = false;
+                    return;
+                }
+                if(node->father->three_node){
+                    node->values[0] = node->father->values[0];
+                    node->values[1] = node->father->middle->values[0];
+                    node->three_node = true;
+                    node->father->values[0] = node->father->values[1];
+                    node->father->middle->values[0] = node->father->right->values[0];
+    //                node->father->values[1] = node->father->right->values[0];
+                    node->father->right = nullptr;
+                    node->father->three_node = false;
+                    return;
+                }
+                if(node->father == root){
+                    node->father->values[1] = node->father->middle->values[0];
+                    node->father->left = node->father->middle = nullptr;
+                    node->father->three_node = true;
+                    return;
+                }
+                if(!node->father->father->three_node ){
+                    if(node->father->key == 0 && !node->father->father->middle->three_node) {
+                        node->father->values[1] = node->father->middle->values[0];
+                        node->father->left = node->father->middle = nullptr;
+                        node->father->three_node = true;
+                        node->father->father->values[1] = node->father->father->middle->values[0];
+                        node->father->father->three_node = true;
+                        node->father->father->right = node->father->father->middle->middle;
+                        node->father->father->right->father = node->father->father;
+                        node->father->father->right->key = 2;
+                        node->father->father->middle = node->father->father->middle->left;
+                        node->father->father->middle->father = node->father->father;
+                        node->father->father->middle->key = 1;
+                        return;
+                    }
+                    if(node->father->key == 1 && !node->father->father->left->three_node) {
+                        node->father->values[1] = node->father->middle->values[0];
+                        node->father->left = node->father->middle = nullptr;
+                        node->father->three_node = true;
+                        node->father->father->values[1] = node->father->father->middle->values[0];
+                        node->father->father->three_node = true;
+                        node->father->father->right = node->father->father->middle->middle;
+                        node->father->father->right->father = node->father->father;
+                        node->father->father->right->key = 2;
+                        node->father->father->middle = node->father->father->middle->left;
+                        node->father->father->middle->father = node->father->father;
+                        node->father->father->middle->key = 1;
+                        return;
+                    }
+
+                }
+                if(!node->father->father->three_node && node->father->father->middle->three_node){
+                    node->values[0] = node->father->values[0];
+                    node->values[1] = node->father->middle->values[0];
+                    node->three_node = true;
+                    node->father->middle = node->father->father->middle->left;
+                    node->father->middle->father = node->father;
+                    node->father->middle->key = 1;
+                    node->father->values[0] = node->father->father->values[0];
+                    node->father->father->values[0] = node->father->father->middle->values[0];
+                    node->father->father->middle->left = node->father->father->middle->middle;
+                    node->father->father->left->key = 0;
+                    node->father->father->middle->middle = node->father->father->middle->right;
+                    node->father->father->middle->key = 1;
+                    node->father->father->middle->three_node = false;
+                    return;
+                }
+                if(node->father->father->three_node && !node->father->father->middle->three_node){
+                    node->values[0] = node->father->values[0];
+                    node->values[1] = node->father->middle->values[0];
+                    node->three_node = true;
+                    node->father->middle = node->father->father->middle->left;
+                    node->father->middle->father = node->father;
+                    node->father->middle->key = 1;
+                    node->father->values[0] = node->father->father->values[0];
+                    node->father->values[1] = node->father->father->middle->values[0];
+                    node->father->three_node = true;
+                    node->father->right = node->father->father->middle->middle;
+                    node->father->right->father = node->father;
+                    node->father->right->key = 2;
+                    node->father->father->values[0] = node->father->father->values[1];
+                    node->father->father->middle = node->father->father->right;
+                    node->father->father->middle->key = 1;
+                    node->father->father->three_node = false;
+                    return;
+                }
+                if(node->father->father->three_node && node->father->father->middle->three_node){
+                    node->values[0] = node->father->values[0];
+                    node->values[1] = node->father->middle->values[0];
+                    node->three_node = true;
+                    node->father->middle = node->father->father->middle->left;
+                    node->father->middle->father = node->father;
+                    node->father->middle->key = 1;
+                    node->father->values[0] = node->father->father->values[0];
+                    node->father->father->values[0] = node->father->father->middle->values[0];
+                    node->father->father->middle->values[0] = node->father->father->middle->values[1];
+                    node->father->father->middle->left = node->father->father->middle->middle;
+                    node->father->father->middle->left->key = 0;
+                    node->father->father->middle->middle = node->father->father->middle->right;
+                    node->father->father->middle->middle->key = 1;
+                    node->father->father->middle->three_node = false;
+                    return;
+                }
+
             }
-            if(node->key == 0 && node->father->right->three_node){
-                node->values[0] = node->father->values[0];
-                node->father->values[0] = node->father->middle->values[0];
-                node->father->middle->values[0] = node->father->values[1];
-                node->father->values[1] = node->father->right->values[0];
-                node->father->right->values[0] = node->father->right->values[1];
-                node->father->right->three_node = false;
-            }
-            if(node->key == 0 && node->father->right->three_node){
-                node->values[0] = node->father->values[0];
-                node->father->values[0] = node->father->middle->values[0];
-                node->father->middle->values[0] = node->father->values[1];
-                node->father->values[1] = node->father->right->values[0];
-                node->father->right->values[0] = node->father->right->values[1];
-                node->father->right->three_node = false;
+            if(node->key == 1){
+                if (node->father->left->three_node){
+                    node->values[0] = node->father->values[0];
+                    node->father->values[0] = node->father->left->values[1];
+                    node->father->left->three_node = false;
+                    return;
+                }
+                if(node->father->right->three_node){
+                    node->values[0] = node->father->values[1];
+                    node->father->values[1] = node->father->right->values[0];
+                    node->father->right->values[0] = node->father->right->values[1];
+                    node->father->right->three_node = false;
+                    return;
+                }
+                if(node->father->three_node){
+                    node->values[0] = node->father->values[1];
+                    node->values[1] = node->father->right->values[0];
+                    node->three_node = true;
+                    node->father->right = nullptr;
+                    node->father->three_node = false;
+                    return;
+                }
+                if(node->father == root){
+                    node->father->values[1] = node->father->values[0];
+                    node->father->values[0] = node->father->left->values[0];
+                    node->father->left = node->father->middle = nullptr;
+                    node->father->three_node = true;
+                    return;
+                }
+                if(!node->father->father->three_node && !node->father->father->left->three_node){
+                    node->father->values[1] = node->father->values[0];
+                    node->father->values[0] = node->father->left->values[0];
+                    node->father->left = node->father->middle = nullptr;
+                    node->father->three_node = true;
+                    node->father->father->values[1] = node->father->father->values[0];
+                    node->father->father->values[0] = node->father->father->left->values[0];
+                    node->father->father->three_node = true;
+                    node->father->father->right = node->father;
+                    node->father->key = 2;
+                    node->father->father->middle = node->father->father->left->middle;
+                    node->father->father->middle->key = 1;
+                    node->father->father->left = node->father->father->left->left;
+                    node->father->father->left->father = node->father->father;
+                    node->father->father->left->key = 0;
+                    return;
+                }
+                if(!node->father->father->three_node && node->father->father->left->three_node){
+                    node->values[1] = node->father->values[0];
+                    node->values[0] = node->father->left->values[0];
+                    node->three_node = true;
+                    node->father->left = node->father->father->left->right;
+                    node->father->left->father = node->father;
+                    node->father->left->key = 0;
+                    node->father->values[0] = node->father->father->values[0];
+                    node->father->father->values[0] = node->father->father->left->values[1];
+                    node->father->father->middle->three_node = false;
+                    return;
+                }
+                if(node->father->father->three_node && !node->father->father->left->three_node){
+                    node->values[0] = node->father->values[0];
+                    node->values[1] = node->father->middle->values[0];
+                    node->three_node = true;
+                    node->father->middle = node->father->father->middle->left;
+                    node->father->middle->father = node->father;
+                    node->father->middle->key = 1;
+                    node->father->values[0] = node->father->father->values[0];
+                    node->father->values[1] = node->father->father->middle->values[0];
+                    node->father->three_node = true;
+                    node->father->right = node->father->father->middle->middle;
+                    node->father->right->father = node->father;
+                    node->father->right->key = 2;
+                    node->father->father->values[0] = node->father->father->values[1];
+                    node->father->father->middle = node->father->father->right;
+                    node->father->father->middle->key = 1;
+                    node->father->father->three_node = false;
+                    return;
+                }
+                if(node->father->father->three_node && node->father->father->middle->three_node){
+                    node->values[0] = node->father->values[0];
+                    node->values[1] = node->father->middle->values[0];
+                    node->three_node = true;
+                    node->father->middle = node->father->father->middle->left;
+                    node->father->middle->father = node->father;
+                    node->father->middle->key = 1;
+                    node->father->values[0] = node->father->father->values[0];
+                    node->father->father->values[0] = node->father->father->middle->values[0];
+                    node->father->father->middle->values[0] = node->father->father->middle->values[1];
+                    node->father->father->middle->left = node->father->father->middle->middle;
+                    node->father->father->middle->left->key = 0;
+                    node->father->father->middle->middle = node->father->father->middle->right;
+                    node->father->father->middle->middle->key = 1;
+                    node->father->father->middle->three_node = false;
+                }
             }
         }
     }
@@ -573,6 +765,10 @@ public:
             }
             search_node(node->right, res, lo, hi);
         }
+    }
+    void output(){
+        int index = 0;
+        output(index, root);
     }
     void output(int& index, Node* node){
         if(node == nullptr)

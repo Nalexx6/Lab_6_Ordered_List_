@@ -57,7 +57,8 @@ public:
                         get_height(node->right));
         x->height = 1 + std::max(get_height(x->left),
                         get_height(x->right));
-
+        x->father = node->father;
+        node->father = x;
         return x;
     }
     Node* right_rotation(Node* node){
@@ -72,7 +73,8 @@ public:
                         get_height(node->right));
         x->height = 1 + std::max(get_height(x->left),
                         get_height(x->right));
-
+        x->father = node->father;
+        node->father = x;
         return x;
     }
 
@@ -118,6 +120,10 @@ public:
 
     void delete_node(Node* node){
         if(node->right == nullptr && node->left == nullptr){
+            if(node == root){
+                root == nullptr;
+                return;
+            }
             if(node->father->right->value == node->value){
                 node->father->right = nullptr;
                 delete node;
@@ -128,6 +134,11 @@ public:
             return;
         }
         if(node->right == nullptr && node->left != nullptr){
+            if(node == root){
+                root = node->left;
+                root->father = nullptr;
+                return;
+            }
             if(node->father->right->value == node->value){
                 node->father->right = node->left;
                 node->left->father = node->father;
@@ -140,6 +151,11 @@ public:
             return;
         }
         if(node->right != nullptr && node->left == nullptr){
+            if(node == root){
+                root = node->right;
+                root->father = nullptr;
+                return;
+            }
             if(node->father->right->value == node->value){
                 node->father->right = node->right;
                 node->right->father = node->father;
@@ -203,19 +219,22 @@ public:
         node->height = 1 + std::max(get_height(node->left), get_height(node->right));
         int balance = get_height(node->left) - get_height(node->right);
 
-        if(balance > 1){
-            right_rotation(node);
-        }
-        if(balance < -1){
-            left_rotation(node);
-        }
+//        if(balance > 1){
+//            right_rotation(node);
+//
+//        }
+//        if(balance < -1){
+//            left_rotation(node);
+//        }
         if(balance > 1){
             node->left = left_rotation(node->left);
             node->left->father = node;
+            return;
         }
         if(balance < -1){
             node->right = right_rotation(node->right);
             node->right->father = node;
+            return;
         }
     }
 
@@ -260,6 +279,10 @@ public:
         }
         search_node(node->right, res, lo, hi);
     }
+    void output(){
+        int index = 0;
+        output(index, root);
+    }
     void output(int& index, Node* node){
         if(node == nullptr)
             return;
@@ -272,6 +295,15 @@ public:
             index++;
         }
         output(index, node->right);
+    }
+    void go_round(){
+        go_round(root);
+    }
+    void go_round(Node* node){
+        if(node == nullptr)
+            return;
+        go_round(node->left);
+        go_round(node->right);
     }
 
 

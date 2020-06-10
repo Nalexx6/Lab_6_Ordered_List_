@@ -22,20 +22,23 @@ private:
         Node* father;
         int height;
         int count;
+        int key;
 
-        Node(T value){
+        Node(T value, int key){
             this->value = value;
             this->right = nullptr;
             this->left = nullptr;
-            height = 1;
-            count = 1;
+            this->key = key;
+            this->height = 1;
+            this->count = 1;
         }
     };
 
 public:
     Node* root;
-
+    int size;
     Ord_avl(){
+        this->size = 0;
         root = nullptr;
     }
     ~Ord_avl() = default;
@@ -45,13 +48,20 @@ public:
             return 0;
         return node->height;
     }
-    Node* left_rotation(Node* node){
+    Node* left_rotation(Node* node) {
 
         Node *x = node->right;
         Node *l_sub = x->left;
 
-         x->left = node;
+        x->left = node;
+        if(node == root)
+            root = x;
+        node->key = 0;
         node->right = l_sub;
+        if (l_sub){
+            l_sub->key = 1;
+            l_sub->father = node;
+        }
 
         node->height = 1 + std::max(get_height(node->left),
                         get_height(node->right));
@@ -67,7 +77,14 @@ public:
         Node *r_sub = x->right;
 
         x->right = node;
+        if(node == root)
+            root = x;
+        node->key = 1;
         node->left = r_sub;
+        if(r_sub) {
+            r_sub->key = 0;
+            r_sub->father = node;
+        }
 
         node->height = 1 + std::max(get_height(node->left),
                         get_height(node->right));
@@ -79,18 +96,19 @@ public:
     }
 
     void push(T& t){
-        root = push(root, t);
+        size++;
+        root = push(root, t, 0);
     }
-    Node* push(Node* node, T& t){
+    Node* push(Node* node, T& t, int key){
         if(node == nullptr)
-            return new Node(t);
+            return new Node(t, key);
 //        std::cout<<node->value<<std::endl;
         if(t < node->value){
-            node->left = push(node->left, t);
+            node->left = push(node->left, t, 0);
             node->left->father = node;
         }
         if(t > node->value){
-            node->right = push(node->right, t);
+            node->right = push(node->right, t, 1);
             node->right->father = node;
         }
         if(t == node->value){
@@ -124,7 +142,7 @@ public:
                 root == nullptr;
                 return;
             }
-            if(node->father->right->value == node->value){
+            if(node->key == 1){
                 node->father->right = nullptr;
                 delete node;
             } else{
@@ -139,9 +157,10 @@ public:
                 root->father = nullptr;
                 return;
             }
-            if(node->father->right->value == node->value){
+            if(node->key == 1){
                 node->father->right = node->left;
                 node->left->father = node->father;
+                node->left->key = 1;
                 delete node;
             } else{
                 node->father->left = node->left;
@@ -156,13 +175,14 @@ public:
                 root->father = nullptr;
                 return;
             }
-            if(node->father->right->value == node->value){
+            if(node->key == 1){
                 node->father->right = node->right;
                 node->right->father = node->father;
                 delete node;
             } else{
                 node->father->left = node->right;
                 node->right->father = node->father;
+                node->right->key = 0;
                 delete node;
             }
             return;
@@ -183,6 +203,7 @@ public:
         }
     }
     void erase(int& index) {
+        size--;
         int count = 0;
         erase(root, index, count);
         balancing(root);
@@ -219,23 +240,23 @@ public:
         node->height = 1 + std::max(get_height(node->left), get_height(node->right));
         int balance = get_height(node->left) - get_height(node->right);
 
-//        if(balance > 1){
-//            right_rotation(node);
-//
-//        }
-//        if(balance < -1){
-//            left_rotation(node);
-//        }
         if(balance > 1){
-            node->left = left_rotation(node->left);
-            node->left->father = node;
-            return;
+            right_rotation(node);
+
         }
         if(balance < -1){
-            node->right = right_rotation(node->right);
-            node->right->father = node;
-            return;
+            left_rotation(node);
         }
+//        if(balance > 1){
+//            node->left = left_rotation(node->left);
+//            node->left->father = node;
+//            return;
+//        }
+//        if(balance < -1){
+//            node->right = right_rotation(node->right);
+//            node->right->father = node;
+//            return;
+//        }
     }
 
     std::vector <T> search(T& value){

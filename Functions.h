@@ -11,6 +11,8 @@
 #include "Ord_list structures/Ord_avl.h"
 #include "Ord_list structures/Ord_23.h"
 #include "Random.h"
+#include <fstream>
+#include <ctime>
 
 class Functions {
 
@@ -44,7 +46,7 @@ public:
 
     //Benchmark
 
-    void comparison_benchmark(Point* array, std::ofstream& f, int sorted);
+    static void comparison_benchmark(Point* array, std::ofstream& f, int sorted);
 
 
 

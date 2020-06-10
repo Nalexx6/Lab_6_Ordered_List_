@@ -19,34 +19,40 @@ private:
         Node* right;
         Node* father;
         int count;
+        int key;
 
-        Node(T value){
+        Node(T value, int key){
             this->value = value;
             this->right = nullptr;
             this->left = nullptr;
+            this->key = key;
             count = 1;
+
         }
     };
 
 public:
     Node* root;
+    int size;
     Ord_bst(){
+        this->size = 0;
         this->root = nullptr;
     }
     ~Ord_bst() = default;
 
     void push(T& t){
-        root = push(root, t);
+        size++;
+        root = push(root, t, 0);
     }
-    Node* push(Node* node, T& t){
+    Node* push(Node* node, T& t, int key){
         if(node == nullptr)
-            return new Node(t);
+            return new Node(t, key);
         if(t < node->value){
-            node->left = push(node->left, t);
+            node->left = push(node->left, t, 0);
             node->left->father = node;
         }
         if(t > node->value){
-            node->right = push(node->right, t);
+            node->right = push(node->right, t, 1);
             node->right->father = node;
         }
         if(t == node->value){
@@ -56,7 +62,12 @@ public:
     }
     void delete_node(Node* node){
         if(node->right == nullptr && node->left == nullptr){
-            if(node->father->right->value == node->value){
+            if(node == root){
+                root = nullptr;
+                delete node;
+                return;
+            }
+            if(node->key == 1){
                 node->father->right = nullptr;
                 delete node;
             } else{
@@ -66,9 +77,16 @@ public:
             return;
         }
         if(node->right == nullptr && node->left != nullptr){
-            if(node->father->right->value == node->value){
+            if(node == root){
+                root = node->left;
+                delete node;
+                root->father = nullptr;
+                return;
+            }
+            if(node->key == 1){
                 node->father->right = node->left;
                 node->left->father = node->father;
+                node->left->key = 1;
                 delete node;
             } else{
                 node->father->left = node->left;
@@ -78,13 +96,20 @@ public:
             return;
         }
         if(node->right != nullptr && node->left == nullptr){
-            if(node->father->right->value == node->value){
+            if(node == root){
+                root = node->right;
+                delete node;
+                root->father = nullptr;
+                return;
+            }
+            if(node->key == 1){
                 node->father->right = node->right;
                 node->right->father = node->father;
                 delete node;
             } else{
                 node->father->left = node->right;
                 node->right->father = node->father;
+                node->right->key = 0;
                 delete node;
             }
             return;
@@ -105,11 +130,13 @@ public:
         }
     }
     void erase(int& index){
+        size--;
         int count = 0;
         erase(root, index, count);
     }
     void erase(Node* node, int& index, int& count){
         if(node == nullptr){
+//            std::cout<<"dsfsdf\n";
             return;
         }
         erase(node->left, index, count);

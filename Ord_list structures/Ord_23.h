@@ -35,8 +35,9 @@ private:
 public:
 
     Node* root;
-
+    int size;
     Ord_23(){
+        this->size = 0;
         root = nullptr;
     }
     ~Ord_23() = default;
@@ -48,6 +49,7 @@ public:
         else{
             push(t, root, 0);
         }
+        size++;
     }
     void two_insert(Node* node, T& t){
         if(node->values[0] > t){

@@ -615,4 +615,129 @@ void Functions::ord_23_demo() {
 
 }
 
+void Functions::comparison_benchmark(Point *array, std::ofstream &f, int sorted) {
+
+    int index;
+    Ord_list <Point> ordList;
+    Ord_array <Point> ordArray;
+    Ord_bst <Point> ordBst;
+    Ord_avl <Point> ordAvl;
+//    Point* copy = new
+
+    for(int N = 10; N <= 100000; N *= 10) {
+        std::cout<<"Processing benchmark for "<<N<<" elements\n";
+        f << "\n\n------------------Data for " << N << " elements------------\n";
+        f <<"\t\tpush\tgo_round\tsearch\terase";
+        f <<"\nList\t";
+        std::cout<<"list\n";
+        clock_t start = clock();
+        for (int i = 0; i < N; i++) {
+            ordList.push(array[i]);
+        }
+        clock_t end = clock();
+        f << end - start << "\t\t";
+
+        start = clock();
+        ordList.go_round();
+        end = clock();
+        f << end - start << "\t\t";
+
+        auto *lo = new Point(N / 4, 0, 0);
+        auto *hi = new Point(3 * N / 4, 0, 0);
+        start = clock();
+        ordList.search(*lo, *hi);
+        end = clock();
+        f << end - start << "\t\t";
+
+        start = clock();
+        for (int i = 0; i < N; i++) {
+            index = Random::rand(0, ordList.length);
+            ordList.erase(index);
+        }
+        end = clock();
+        f << end - start << "\t\t";
+
+        std::cout<<"array\n";
+        f <<"\nArray\t";
+        start = clock();
+        for (int i = 0; i < N; i++) {
+            ordArray.push(array[i]);
+        }
+        end = clock();
+        f << end - start << "\t\t";
+
+        start = clock();
+        ordArray.go_round();
+        end = clock();
+        f << end - start << "\t\t";
+
+        start = clock();
+        ordArray.search(*lo, *hi);
+        end = clock();
+        f << end - start << "\t\t";
+
+        start = clock();
+        for (int i = 0; i < N; i++) {
+            index = Random::rand(0, ordArray.size);
+            ordArray.erase(index);
+        }
+        end = clock();
+        f << end - start << "\t\t";
+
+        std::cout<<"bst\n";
+        f <<"\nBST\t\t";
+        start = clock();
+        for (int i = 0; i < N; i++) {
+            ordBst.push(array[i]);
+        }
+        end = clock();
+        f << end - start << "\t\t";
+
+        start = clock();
+        ordBst.go_round();
+        end = clock();
+        f << end - start << "\t\t";
+
+        start = clock();
+        ordBst.search(*lo, *hi);
+        end = clock();
+        f << end - start << "\t\t";
+
+        start = clock();
+        for (int i = 0; i < N; i++) {
+            index = Random::rand(0, ordBst.size);
+            ordBst.erase(index);
+        }
+        end = clock();
+        f << end - start << "\t\t";
+
+        std::cout<<"avl\n";
+        f <<"\nAVL\t\t";
+        start = clock();
+        for (int i = 0; i < N; i++) {
+            ordAvl.push(array[i]);
+        }
+        end = clock();
+        f << end - start << "\t\t";
+
+        start = clock();
+        ordAvl.go_round();
+        end = clock();
+        f << end - start << "\t\t";
+
+        start = clock();
+        ordAvl.search(*lo, *hi);
+        end = clock();
+        f << end - start << "\t\t";
+
+        start = clock();
+        for (int i = 0; i < N; i++) {
+            index = Random::rand(0, ordAvl.size);
+            ordAvl.erase(index);
+        }
+        end = clock();
+        f << end - start << "\t";
+    }
+}
+
 

@@ -1,0 +1,37 @@
+Data for random sorted array
+
+
+------------------Data for 10 elements------------
+		push	go_round	search	erase
+List	0		0		0		0		
+Array	0		0		0		0		
+BST		0		0		0		0		
+AVL		0	0	0	0	
+
+------------------Data for 100 elements------------
+		push	go_round	search	erase
+List	0		0		0		0		
+Array	0		0		0		0		
+BST		0		0		0		0		
+AVL		0	0	0	1	
+
+------------------Data for 1000 elements------------
+		push	go_round	search	erase
+List	1		0		0		1		
+Array	1		0		0		1		
+BST		0		0		0		5		
+AVL		0	0	0	11	
+
+------------------Data for 10000 elements------------
+		push	go_round	search	erase
+List	258		0		0		421		
+Array	224		0		0		166		
+BST		5		0		0		726		
+AVL		8	0	0	601	
+
+------------------Data for 100000 elements------------
+		push	go_round	search	erase
+List	113493		7		0		144514		
+Array	15907		1		0		15253		
+BST		123		6		0		237312		
+AVL		129	7	0	100115	

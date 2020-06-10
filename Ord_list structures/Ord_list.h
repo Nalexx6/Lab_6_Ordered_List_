@@ -32,10 +32,10 @@ private:
 
     ListNode*  head;
     ListNode*  tail;
-    int length;
+
 
 public:
-
+    int length;
     Ord_list(){
 
         head = nullptr;
@@ -89,6 +89,7 @@ public:
             head = nullptr;
             tail = nullptr;
             length--;
+            return;
         }
         if(index == 0){
             head = head->next;

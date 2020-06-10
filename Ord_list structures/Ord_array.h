@@ -78,7 +78,7 @@ public:
             return;
         }
         int index = bin_search(t);
-        std::cout<<index<<"\n";
+//        std::cout<<index<<"\n";
         if(size >= 2 << power){
             shift_push();
         }

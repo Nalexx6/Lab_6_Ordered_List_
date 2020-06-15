@@ -65,8 +65,11 @@ public:
 
         node->height = 1 + std::max(get_height(node->left),
                         get_height(node->right));
+//        std::cout<<"l_rot node-h"<<node->height<<"\n";
         x->height = 1 + std::max(get_height(x->left),
                         get_height(x->right));
+//        std::cout<<"l_rot x-h"<<x->height<<"\n";
+
         x->father = node->father;
         node->father = x;
         return x;
@@ -88,16 +91,19 @@ public:
 
         node->height = 1 + std::max(get_height(node->left),
                         get_height(node->right));
+//        std::cout<<"r_rot node-h"<<node->height<<"\n";
         x->height = 1 + std::max(get_height(x->left),
                         get_height(x->right));
+        std::cout<<x->height<<"\n";
+//        std::cout<<"r_rot x-h"<<x->height<<"\n";
         x->father = node->father;
         node->father = x;
         return x;
     }
 
     void push(T& t){
-        size++;
         root = push(root, t, 0);
+        size++;
     }
     Node* push(Node* node, T& t, int key){
         if(node == nullptr)
@@ -144,9 +150,11 @@ public:
             }
             if(node->key == 1){
                 node->father->right = nullptr;
+                node->father = nullptr;
                 delete node;
             } else{
                 node->father->left = nullptr;
+                node->father = nullptr;
                 delete node;
             }
             return;
@@ -161,10 +169,12 @@ public:
                 node->father->right = node->left;
                 node->left->father = node->father;
                 node->left->key = 1;
+                node->father = nullptr;
                 delete node;
             } else{
                 node->father->left = node->left;
                 node->left->father = node->father;
+                node->father = nullptr;
                 delete node;
             }
             return;
@@ -173,16 +183,20 @@ public:
             if(node == root){
                 root = node->right;
                 root->father = nullptr;
+                node->father = nullptr;
                 return;
             }
             if(node->key == 1){
                 node->father->right = node->right;
                 node->right->father = node->father;
+                node->father = nullptr;
+
                 delete node;
             } else{
                 node->father->left = node->right;
                 node->right->father = node->father;
                 node->right->key = 0;
+                node->father = nullptr;
                 delete node;
             }
             return;
@@ -203,10 +217,11 @@ public:
         }
     }
     void erase(int& index) {
-        size--;
         int count = 0;
         erase(root, index, count);
         balancing(root);
+        size--;
+
     }
     void erase(Node* node, int& index, int& count){
         if(node == nullptr){
@@ -238,6 +253,7 @@ public:
         balancing(node->left);
         balancing(node->right);
         node->height = 1 + std::max(get_height(node->left), get_height(node->right));
+//        std::cout<<node->value<<"\nnode-h"<<node->height<<"\n";
         int balance = get_height(node->left) - get_height(node->right);
 
         if(balance > 1){

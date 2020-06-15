@@ -622,6 +622,7 @@ void Functions::comparison_benchmark(Point *array, std::ofstream &f, int sorted)
     Ord_array <Point> ordArray;
     Ord_bst <Point> ordBst;
     Ord_avl <Point> ordAvl;
+    Ord_23 <Point> ord23;
 //    Point* copy = new
 
     for(int N = 10; N <= 100000; N *= 10) {
@@ -711,32 +712,59 @@ void Functions::comparison_benchmark(Point *array, std::ofstream &f, int sorted)
         end = clock();
         f << end - start << "\t\t";
 
-        std::cout<<"avl\n";
-        f <<"\nAVL\t\t";
-        start = clock();
-        for (int i = 0; i < N; i++) {
-            ordAvl.push(array[i]);
-        }
-        end = clock();
-        f << end - start << "\t\t";
+//        std::cout<<"avl\n";
+//        f <<"\nAVL\t\t";
+//        start = clock();
+//        for (int i = 0; i < N; i++) {
+//            ordAvl.push(array[i]);
+//        }
+//        end = clock();
+//        f << end - start << "\t\t";
+//
+//        start = clock();
+//        ordAvl.go_round();
+//        end = clock();
+//        f << end - start << "\t\t";
+//
+//        start = clock();
+//        ordAvl.search(*lo, *hi);
+//        end = clock();
+//        f << end - start << "\t\t";
+//
+//        start = clock();
+//        for (int i = 0; i < N; i++) {
+//            index = Random::rand(0, ordAvl.size - 1);
+//            ordAvl.erase(index);
+//        }
+//        end = clock();
+//        f << end - start << "\t";
 
-        start = clock();
-        ordAvl.go_round();
-        end = clock();
-        f << end - start << "\t\t";
-
-        start = clock();
-        ordAvl.search(*lo, *hi);
-        end = clock();
-        f << end - start << "\t\t";
-
-        start = clock();
-        for (int i = 0; i < N; i++) {
-            index = Random::rand(0, ordAvl.size);
-            ordAvl.erase(index);
-        }
-        end = clock();
-        f << end - start << "\t";
+//        std::cout<<"2-3\n";
+//        f <<"\n2-3\t\t";
+//        start = clock();
+//        for (int i = 0; i < N; i++) {
+//            ord23.push(array[i]);
+//        }
+//        end = clock();
+//        f << end - start << "\t\t";
+//
+//        start = clock();
+//        ord23.go_round();
+//        end = clock();
+//        f << end - start << "\t\t";
+//
+//        start = clock();
+//        ord23.search(*lo, *hi);
+//        end = clock();
+//        f << end - start << "\t\t";
+//
+//        start = clock();
+//        for (int i = 0; i < N; i++) {
+//            index = Random::rand(0, ord23.size);
+//            ord23.erase(index);
+//        }
+//        end = clock();
+//        f << end - start << "\t";
     }
 }
 

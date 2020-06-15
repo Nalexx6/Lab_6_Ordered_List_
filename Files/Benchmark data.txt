@@ -21,3 +21,12 @@ BST		1		0		0		3
 
 ------------------Data for 10000 elements------------
 		push	go_round	search	erase
+List	233		0		0		227		
+Array	129		0		0		113		
+BST		5		0		0		646		
+
+------------------Data for 100000 elements------------
+		push	go_round	search	erase
+List	70678		6		0		105010		
+Array	11148		1		0		11207		
+BST		134		4		0		151938		
